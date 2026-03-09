@@ -20,6 +20,11 @@
 
 • Mercado Pago SDK
 
+Usuário administrador padrão criado automaticamente:
+
+Email: admin@evento.com
+Senha: Admin123!
+
 # Banco de dados SQL SERVER
 Comandos pacote NuGet (Entity framework)
 
