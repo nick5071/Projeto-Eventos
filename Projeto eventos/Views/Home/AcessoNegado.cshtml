@@ -1,0 +1,43 @@
+﻿@{
+    ViewData["Title"] = "Acesso Negado";
+}
+
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+
+<div class="min-h-screen flex flex-col font-sans bg-gray-900 text-gray-100 relative overflow-hidden">
+
+    <header id="navbar" class="fixed top-0 w-full z-50 backdrop-blur-md bg-gray-900/70 border-b border-gray-700 transition-all duration-300">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-purple-500 via-pink-500 to-indigo-500 text-transparent bg-clip-text">
+                EventX
+            </h1>
+            <a asp-controller="Home" asp-action="Index" class="px-5 py-2 rounded-full bg-pink-500 hover:bg-pink-600 text-white font-semibold shadow-lg transition transform hover:-translate-y-0.5">
+                Voltar ao Início
+            </a>
+        </div>
+    </header>
+
+    <section class="flex-1 flex flex-col items-center justify-center text-center px-6 py-36 relative">
+        <div id="particles-js" class="absolute inset-0 z-0"></div>
+
+        <div class="relative z-10 max-w-2xl">
+            <h2 class="text-6xl font-extrabold mb-6 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-transparent bg-clip-text animate-pulse">
+                Acesso Negado
+            </h2>
+            <p class="text-lg text-gray-300 mb-10">
+                Você não tem permissão para acessar esta página.
+            </p>
+
+            <div class="flex justify-center gap-4">
+                <a asp-controller="Home" asp-action="Index" class="px-8 py-3 bg-pink-500 text-white rounded-full font-bold shadow-lg hover:bg-pink-600 transition transform hover:-translate-y-1">
+                    Ir para Início
+                </a>
+            </div>
+        </div>
+    </section>
+    </footer>
+</div>
+
+<script>
+    particlesJS("particles-js", {
+        "particle

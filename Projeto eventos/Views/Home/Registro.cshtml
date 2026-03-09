@@ -1,0 +1,111 @@
+﻿@model Projeto_eventos.Models.Registro
+@{
+    ViewData["Title"] = "Registrar-se";
+}
+
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+
+<div class="min-h-screen flex flex-col font-sans bg-gray-900 text-gray-100 relative overflow-hidden">
+
+    <!-- NAVBAR -->
+    <header id="navbar" class="fixed top-0 w-full z-50 backdrop-blur-md bg-gray-900/70 border-b border-gray-700 transition-all duration-300">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center relative z-10">
+            <h1 class="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-purple-500 via-pink-500 to-indigo-500 text-transparent bg-clip-text">
+                EventX
+            </h1>
+
+            <div class="flex gap-3">
+                <a asp-action="Login" class="px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-full text-white font-semibold shadow transition transform hover:-translate-y-0.5">Entrar</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- PARTICULAS -->
+    <div id="particles-js" class="absolute inset-0 z-0"></div>
+
+    <!-- FORMULÁRIO -->
+    <section class="flex-1 flex items-center justify-center px-6 py-36 relative z-10">
+        <div class="bg-gray-800/80 backdrop-blur-md rounded-3xl shadow-2xl p-10 w-full max-w-md animate-fadeIn border border-gray-700">
+            <h2 class="text-3xl font-bold text-center bg-gradient-to-r from-purple-400 via-pink-400 to-indigo-400 text-transparent bg-clip-text mb-6">Crie sua conta</h2>
+
+            <!-- Sucesso -->
+            @if (TempData["MensagemRegistro"] != null)
+            {
+                <div class="bg-green-600/20 border border-green-400 rounded-xl px-4 py-3 mb-4 text-green-200 text-sm flex justify-between items-center">
+                    <span>@TempData["MensagemRegistro"]</span>
+                    <button onclick="this.parentElement.remove()" class="text-green-300 hover:text-green-100">✕</button>
+                </div>
+            }
+
+            <!-- Erro -->
+            @if (ViewBag.MensagemErro != null)
+            {
+                <div class="bg-red-600/20 border border-red-400 rounded-xl px-4 py-3 mb-4 text-red-200 text-sm flex justify-between items-center">
+                    <span>@ViewBag.MensagemErro</span>
+                    <button onclick="this.parentElement.remove()" class="text-red-300 hover:text-red-100">✕</button>
+                </div>
+            }
+
+            <form asp-action="Registrar" method="post" class="space-y-6">
+                @Html.AntiForgeryToken()
+
+                <!-- Email -->
+                <div>
+                    <label asp-for="Email" class="block text-sm text-gray-300 mb-1">Email</label>
+                    <input asp-for="Email" placeholder="Seu email"
+                           class="w-full px-4 py-3 rounded-xl bg-gray-900 border border-gray-700 text-gray-100 focus:border-purple-500 focus:ring-2 focus:ring-purple-500 outline-none transition" />
+                    <span asp-validation-for="Email" class="text-red-400 text-sm mt-1 block"></span>
+                </div>
+
+                <!-- Senha -->
+                <div>
+                    <label asp-for="Password" class="block text-sm text-gray-300 mb-1">Senha</label>
+                    <input asp-for="Password" type="password" placeholder="Sua senha"
+                           class="w-full px-4 py-3 rounded-xl bg-gray-900 border border-gray-700 text-gray-100 focus:border-purple-500 focus:ring-2 focus:ring-purple-500 outline-none transition" />
+                    <span asp-validation-for="Password" class="text-red-400 text-sm mt-1 block"></span>
+                </div>
+
+                <!-- Confirmar Senha -->
+                <div>
+                    <label asp-for="ConfirmPassword" class="block text-sm text-gray-300 mb-1">Confirme a senha</label>
+                    <input asp-for="ConfirmPassword" type="password" placeholder="Repita sua senha"
+                           class="w-full px-4 py-3 rounded-xl bg-gray-900 border border-gray-700 text-gray-100 focus:border-purple-500 focus:ring-2 focus:ring-purple-500 outline-none transition" />
+                    <span asp-validation-for="ConfirmPassword" class="text-red-400 text-sm mt-1 block"></span>
+                </div>
+
+                <!-- Botão -->
+                <button type="submit"
+                        class="w-full py-3 bg-gradient-to-r from-purple-600 via-pink-600 to-indigo-600 text-white font-bold rounded-xl shadow-lg hover:scale-[1.02] active:scale-95 transition-all">
+                    Registrar
+                </button>
+            </form>
+
+            <p class="mt-6 text-center text-gray-400 text-sm">
+                Já tem uma conta?
+                <a asp-action="Login" class="text-pink-400 hover:underline">Entrar</a>
+            </p>
+        </div>
+    </section>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        // PARTICULAS
+        particlesJS("particles-js", {
+          "particles": {
+            "number": { "value": 60 },
+            "color": { "value": "#ffffff" },
+            "shape": { "type": "circle" },
+            "opacity": { "value": 0.3 },
+            "size": { "value": 3 },
+            "line_linked": { "enable": true, "distance": 130, "color": "#ffffff", "opacity": 0.2, "width": 1 },
+            "move": { "enable": true, "speed": 0.8 }
+          },
+          "interactivity": {
+            "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" } }
+          },
+          "retina_detect": true
+        });
+    </script>
+}

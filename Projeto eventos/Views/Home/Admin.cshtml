@@ -1,0 +1,112 @@
+﻿@{
+    ViewData["Title"] = "Admin - Gerenciar Usuários";
+}
+
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+
+<div class="min-h-screen font-sans bg-gray-900 text-gray-100 relative overflow-hidden">
+
+
+    <div id="particles-js" class="fixed inset-0 z-0"></div>
+
+    <!-- NAVBAR -->
+    <header id="navbar" class="fixed top-0 w-full z-50 backdrop-blur-md bg-gray-900/70 border-b border-gray-700 transition-all duration-300">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+
+            <h1 class="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-purple-500 via-pink-500 to-indigo-500 text-transparent bg-clip-text">
+                EventX Admin
+            </h1>
+
+            <nav class="hidden md:flex gap-8 font-semibold text-gray-200">
+                <a asp-controller="Home" asp-action="Index" class="hover:text-purple-400 transition">Início</a>
+                <a asp-controller="Home" asp-action="Eventos" class="hover:text-purple-400 transition">Criar Evento</a>
+            </nav>
+
+        </div>
+    </header>
+
+    <!-- CONTEÚDO -->
+    <section class="pt-36 pb-24 px-6 relative z-10">
+
+        <div class="max-w-xl mx-auto">
+
+            <div class="bg-gray-800/80 backdrop-blur-xl border border-gray-700 rounded-3xl shadow-2xl p-10">
+
+                <h2 class="text-3xl font-bold text-center mb-8 bg-gradient-to-r from-red-400 to-pink-500 text-transparent bg-clip-text">
+                    Deletar Usuário
+                </h2>
+
+                @if (ViewBag.Sucesso != null)
+                {
+                    <div class="bg-green-600/90 text-white p-3 rounded-xl mb-6 text-center shadow">
+                        @ViewBag.Sucesso
+                    </div>
+                }
+
+                @if (ViewBag.Erro != null)
+                {
+                    <div class="bg-red-600/90 text-white p-3 rounded-xl mb-6 text-center shadow">
+                        @ViewBag.Erro
+                    </div>
+                }
+
+                <form asp-action="AdminDeletarUsuario" asp-controller="Home" method="post" class="space-y-6">
+
+                    <div>
+                        <label class="block text-gray-300 mb-2 font-semibold">
+                            Email do usuário
+                        </label>
+
+                        <input type="email"
+                               name="email"
+                               required
+                               placeholder="usuario@email.com"
+                               class="w-full p-3 rounded-xl bg-gray-700 border border-gray-600 focus:border-purple-500 focus:ring-2 focus:ring-purple-500 outline-none transition">
+                    </div>
+
+                    <button type="submit"
+                            class="w-full py-3 rounded-xl bg-gradient-to-r from-red-500 to-pink-600 font-bold text-white shadow-lg hover:scale-105 hover:shadow-red-500/40 transition transform">
+                        Deletar Conta
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+<script>
+
+    particlesJS("particles-js", {
+      "particles": {
+        "number": { "value": 80 },
+        "color": { "value": "#ffffff" },
+        "shape": { "type": "circle" },
+        "opacity": { "value": 0.4 },
+        "size": { "value": 3 },
+        "line_linked": {
+          "enable": true,
+          "distance": 120,
+          "color": "#ffffff",
+          "opacity": 0.2,
+          "width": 1
+        },
+        "move": {
+          "enable": true,
+          "speed": 0.8
+        }
+      },
+      "interactivity": {
+        "events": {
+          "onhover": { "enable": true, "mode": "grab" },
+          "onclick": { "enable": true, "mode": "push" }
+        }
+      },
+      "retina_detect": true
+    });
+
+</script>

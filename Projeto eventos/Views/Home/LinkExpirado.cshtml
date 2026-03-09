@@ -1,0 +1,49 @@
+﻿@{
+    ViewData["Title"] = "Link expirado";
+}
+
+<div class="min-h-screen flex items-center justify-center bg-gray-900 text-gray-100 relative overflow-hidden">
+
+    <!-- background -->
+    <div class="absolute inset-0 bg-gradient-to-br from-indigo-900/20 via-transparent to-purple-900/20"></div>
+
+    <!-- card -->
+    <div class="relative z-10 backdrop-blur-xl bg-gray-800/60 border border-gray-700 rounded-2xl shadow-2xl p-10 max-w-md w-full text-center">
+
+        <!-- icone -->
+        <div class="mx-auto w-16 h-16 flex items-center justify-center rounded-full bg-red-500/20 mb-6">
+            <svg xmlns="http://www.w3.org/2000/svg"
+                 class="w-8 h-8 text-red-400"
+                 fill="none"
+                 viewBox="0 0 24 24"
+                 stroke="currentColor">
+                <path stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M12 8v4m0 4h.01M6.938 4h10.124c1.54 0 2.502 1.667 1.732 3L13.732 19c-.77 1.333-2.694 1.333-3.464 0L5.206 7c-.77-1.333.192-3 1.732-3z" />
+            </svg>
+        </div>
+
+        <!-- titulo -->
+        <h1 class="text-2xl font-bold mb-3">
+            Link expirado ou já utilizado
+        </h1>
+
+        <!-- descrição -->
+        <p class="text-gray-400 mb-8">
+            Por segurança, links de redefinição de senha possuem validade limitada.
+            Solicite um novo link para continuar.
+        </p>
+
+        <!-- botão -->
+        <a asp-action="EsqueciSenha"
+           class="inline-block w-full px-6 py-3 bg-purple-600 hover:bg-indigo-500 transition-all duration-200 rounded-xl font-semibold shadow-lg shadow-indigo-900/30">
+            Solicitar novo link
+        </a>
+
+        <!-- footer -->
+        <p class="text-xs text-gray-500 mt-6">
+            Se você já redefiniu sua senha, pode fazer login normalmente.
+        </p>
+    </div>
+</div>

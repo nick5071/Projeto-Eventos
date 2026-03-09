@@ -1,0 +1,36 @@
+﻿@model List<Projeto_eventos.Models.Evento>
+
+<h2>Meus Favoritos</h2>
+
+@if (Model.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Imagem</th>
+                <th>Evento</th>
+                <th>Data</th>
+                <th>Local</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td><img src="@item.ImagemURL" alt="@item.Nome" width="100" /></td>
+                    <td>@item.Nome</td>
+                    <td>@item.Data.ToShortDateString()</td>
+                    <td>@item.Local</td>
+                    <td>
+                        <a asp-action="Remover" asp-route-id="@item.Id" class="btn btn-danger">Remover</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Você não favoritou nenhum evento ainda.</p>
+}

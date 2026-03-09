@@ -1,0 +1,285 @@
+﻿@model Projeto_eventos.Models.Evento
+
+<div class="min-h-screen bg-gray-50 text-gray-900">
+
+    <!--  -->
+    <section class="relative h-[45vh] flex items-center justify-center">
+        <img src="@Model.ImagemURL" alt="@Model.Nome"
+             class="absolute inset-0 w-full h-full object-cover" />
+        <div class="absolute inset-0 bg-black bg-opacity-60"></div>
+
+        <div class="relative z-10 text-center text-white max-w-3xl px-4">
+            <h1 class="text-4xl font-extrabold mb-2">Pagamento</h1>
+            <p class="text-lg opacity-90">@Model.Nome</p>
+            <p>@Model.Data.ToString("dd 'de' MMMM 'de' yyyy 'às' HH:mm")</p>
+        </div>
+    </section>
+
+    <section class="container mx-auto px-6 py-12 max-w-5xl grid md:grid-cols-3 gap-10">
+
+        <!-- FORM -->
+        <div class="md:col-span-2 bg-white shadow-lg rounded-2xl p-8">
+
+            <form id="formPagamento" method="post"
+                  action="@Url.Action("FinalizarPagamento", "Home")"
+                  class="space-y-6">
+
+                <input type="hidden" name="EventoId" value="@Model.Id" />
+                <input type="hidden" name="CardToken" id="cardToken" />
+
+                <!-- Nome -->
+                <div>
+                    <label class="font-semibold">Nome Completo</label>
+                    <input name="Nome" class="w-full p-3 border rounded-xl" maxlength="100" />
+                    <p id="erroNome" class="erro">Preencha o nome</p>
+                </div>
+
+                <!-- CPF -->
+                <div>
+                    <label class="font-semibold">CPF</label>
+                    <input name="CPF" id="cpf" maxlength="11"
+                           class="w-full p-3 border rounded-xl" />
+                    <p id="erroCPF" class="erro">CPF inválido</p>
+                </div>
+
+                <!-- Rua -->
+                <div>
+                    <label class="font-semibold">Rua</label>
+                    <input name="Rua" class="w-full p-3 border rounded-xl" maxlength="100"/>
+                    <p id="erroRua" class="erro">Preencha a rua</p>
+                </div>
+
+                <!-- Cidade -->
+                <div>
+                    <label class="font-semibold">Cidade</label>
+                    <input name="Cidade" class="w-full p-3 border rounded-xl" maxlength="50"/>
+                    <p id="erroCidade" class="erro">Preencha a cidade</p>
+                </div>
+
+                <!-- Estado -->
+                <div>
+                    <label class="font-semibold">Estado</label>
+                    <select name="estado" class="w-full p-3 border rounded-xl">
+                        <option value="">Selecione</option>
+                        <option value="AC">Acre</option>
+                        <option value="AL">Alagoas</option>
+                        <option value="AP">Amapá</option>
+                        <option value="AM">Amazonas</option>
+                        <option value="BA">Bahia</option>
+                        <option value="CE">Ceará</option>
+                        <option value="DF">Distrito Federal</option>
+                        <option value="ES">Espírito Santo</option>
+                        <option value="GO">Goiás</option>
+                        <option value="MA">Maranhão</option>
+                        <option value="MT">Mato Grosso</option>
+                        <option value="MS">Mato Grosso do Sul</option>
+                        <option value="MG">Minas Gerais</option>
+                        <option value="PA">Pará</option>
+                        <option value="PB">Paraíba</option>
+                        <option value="PR">Paraná</option>
+                        <option value="PE">Pernambuco</option>
+                        <option value="PI">Piauí</option>
+                        <option value="RJ">Rio de Janeiro</option>
+                        <option value="RN">Rio Grande do Norte</option>
+                        <option value="RS">Rio Grande do Sul</option>
+                        <option value="RO">Rondônia</option>
+                        <option value="RR">Roraima</option>
+                        <option value="SC">Santa Catarina</option>
+                        <option value="SP">São Paulo</option>
+                        <option value="SE">Sergipe</option>
+                        <option value="TO">Tocantins</option>
+                        <option value="EX">Estrangeiro</option>
+                    </select>
+                    <p id="erroEstado" class="erro">Selecione o estado</p>
+                </div>
+
+                <!-- Modalidade -->
+                <div>
+                    <label class="font-semibold">Modalidade</label>
+                    <select name="TipoIngresso" class="w-full p-3 border rounded-xl">
+                        <option value="inteira">Inteira – R$ @Model.Valor</option>
+                        <option value="meia">Meia – R$ @(Model.Valor / 2)</option>
+                    </select>
+                </div>
+
+                <!-- CARTÃO -->
+                <h2 class="text-xl font-bold text-indigo-600 mt-8">Pagamento</h2>
+
+                <div>
+                    <label>Número do Cartão</label>
+                    <input id="cartaoNumero" name="CartaoNumero"
+                           maxlength="19"
+                           placeholder="0000 0000 0000 0000"
+                           class="w-full p-3 border rounded-xl" />
+                    <p id="erroNumeroCartao" class="erro">Preencha o número do cartão</p>
+                </div>
+
+                <div>
+                    <label>Nome no Cartão</label>
+                    <input name="CartaoNome"
+                           maxlength="50"
+                           class="w-full p-3 border rounded-xl" />
+                    <p id="erroNomeCartao" class="erro">Preencha o nome do cartão</p>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label>Validade</label>
+                        <input name="CartaoValidade"
+                               maxlength="5"
+                               placeholder="MM/AA"
+                               class="w-full p-3 border rounded-xl" />
+                        <p id="erroValidade" class="erro">Validade inválida</p>
+                    </div>
+
+                    <div>
+                        <label>CVV</label>
+                        <input name="CartaoCVV"
+                               maxlength="3"
+                               placeholder="123"
+                               class="w-full p-3 border rounded-xl" />
+                        <p id="erroCVV" class="erro">CVV inválido</p>
+                    </div>
+                </div>
+
+                <button type="button" onclick="pagar()"
+                        class="w-full py-3 bg-indigo-600 text-white rounded-xl font-semibold mt-6">
+                    Finalizar Pagamento
+                </button>
+                <div asp-validation-summary="All" class="text-red-500"></div>
+                <div id="erro-pagamento" class="text-red-500 text-sm mt-2 hidden"></div>
+            </form>
+        </div>
+
+        <!-- RESUMO -->
+        <aside class="bg-white shadow-lg rounded-2xl p-6 h-fit">
+            <h3 class="text-xl font-semibold text-indigo-600 mb-4">Resumo</h3>
+            <p>@Model.Local</p>
+            <p>@Model.Data.ToString("dd/MM/yyyy HH:mm")</p>
+        </aside>
+
+    </section>
+</div>
+
+<style>
+    .erro {
+        color: #dc2626;
+        font-size: .875rem;
+        margin-top: 4px;
+        display: none;
+    }
+
+        .erro.ativo {
+            display: block;
+        }
+
+    .border-erro {
+        border-color: #dc2626;
+    }
+</style>
+
+<script src="https://sdk.mercadopago.com/js/v2"></script>
+
+<script>
+    const mp = new MercadoPago("TEST-231e8a06-4632-4cb2-89f8-6659843672cd", {
+        locale: "pt-BR"
+    });
+
+    /* ===== MÁSCARAS ===== */
+    document.getElementById("cpf").addEventListener("input", e => {
+        e.target.value = e.target.value.replace(/\D/g, "");
+    });
+
+    document.getElementById("cartaoNumero").addEventListener("input", e => {
+        e.target.value = e.target.value
+            .replace(/\D/g, "")
+            .replace(/(.{4})/g, "$1 ")
+            .trim();
+    });
+
+    document.querySelector('[name="CartaoValidade"]').addEventListener("input", e => {
+        let v = e.target.value.replace(/\D/g, "");
+        if (v.length >= 3) v = v.slice(0, 2) + "/" + v.slice(2, 4);
+        e.target.value = v;
+    });
+
+    document.querySelector('[name="CartaoCVV"]').addEventListener("input", e => {
+        e.target.value = e.target.value.replace(/\D/g, "").slice(0, 3);
+    });
+
+    function erro(input, id) {
+        input.classList.add("border-erro");
+        document.getElementById(id).classList.add("ativo");
+    }
+
+    function ok(input, id) {
+        input.classList.remove("border-erro");
+        document.getElementById(id).classList.remove("ativo");
+    }
+
+    async function pagar() {
+        let valido = true;
+
+        const campos = [
+            ["Nome", "erroNome"],
+            ["CPF", "erroCPF"],
+            ["Rua", "erroRua"],
+            ["Cidade", "erroCidade"],
+            ["estado", "erroEstado"],
+            ["CartaoNumero", "erroNumeroCartao"],
+            ["CartaoNome", "erroNomeCartao"],
+            ["CartaoValidade", "erroValidade"],
+            ["CartaoCVV", "erroCVV"]
+        ];
+
+        campos.forEach(([name, erroId]) => {
+            const el = document.querySelector(`[name="${name}"]`);
+            if (!el || el.value.trim() === "") {
+                erro(el, erroId);
+                valido = false;
+            } else {
+                ok(el, erroId);
+            }
+        });
+
+        // CPF
+        const cpfInput = document.querySelector('[name="CPF"]');
+        if (!window.cpfValido) {
+            erro(cpfInput, "erroCPF");
+            valido = false;
+        }
+
+        if (!valido) return;
+
+        try {
+            const validade = document.querySelector('[name="CartaoValidade"]').value.split("/");
+
+            const token = await mp.createCardToken({
+                cardNumber: document.querySelector('[name="CartaoNumero"]').value.replace(/\s/g, ""),
+                cardholderName: document.querySelector('[name="CartaoNome"]').value,
+                cardExpirationMonth: validade[0],
+                cardExpirationYear: "20" + validade[1],
+                securityCode: document.querySelector('[name="CartaoCVV"]').value,
+                identification: {
+                    type: "CPF",
+                    number: cpfInput.value
+                }
+            });
+
+            document.getElementById("cardToken").value = token.id;
+            document.getElementById("formPagamento").submit();
+
+        } catch (e) {
+            console.error(e);
+            let mensagem = "Cartão inválido. Verifique os dados.";
+
+            if (e?.cause && e.cause.length > 0) {
+                mensagem = e.cause[0].description;
+            }
+
+            const erroDiv = document.getElementById("erro-pagamento");
+            erroDiv.textContent = mensagem;
+            erroDiv.classList.remove("hidden");
+        }
+    }
+</script>

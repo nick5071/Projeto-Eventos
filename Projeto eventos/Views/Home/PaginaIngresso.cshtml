@@ -1,0 +1,63 @@
+﻿@model Projeto_eventos.Models.Evento
+
+<div class="min-h-screen bg-gray-50 text-gray-900">
+    <!-------->
+    <section class="relative h-[70vh] flex items-center justify-center">
+        <img src="@Model.ImagemURL" alt="@Model.Nome"
+             class="absolute inset-0 w-full h-full object-cover" />
+        <div class="absolute inset-0 bg-black bg-opacity-60"></div>
+
+        <div class="relative z-10 text-center text-white max-w-3xl px-4">
+            <h1 class="text-5xl font-extrabold mb-4">@Model.Nome</h1>
+            <p class="text-lg md:text-xl mb-2">
+                <i class="lucide lucide-calendar mr-2"></i>
+                @Model.Data.ToString("dd 'de' MMMM 'de' yyyy 'às' HH:mm")
+            </p>
+            <p class="text-lg md:text-xl mb-6">
+                <i class="lucide lucide-map-pin mr-2"></i>@Model.Local
+            </p>
+            <a href="@Url.Action("Pagamento", new { id = Model.Id })"
+               class="px-8 py-3 bg-pink-600 hover:bg-pink-700 rounded-xl text-white text-lg font-semibold shadow-lg">
+                Comprar Ingresso
+            </a>
+        </div>
+    </section>
+
+    <!-- Conteúdo -->
+    <section class="container mx-auto px-6 py-16 max-w-5xl grid md:grid-cols-3 gap-10">
+        <!-- Detalhes -->
+        <div class="md:col-span-2">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Sobre o Evento</h2>
+            <p class="text-gray-600 leading-relaxed mb-8">@Model.Descricao</p>
+
+            <!-- Mapa -->
+            <div class="rounded-2xl overflow-hidden shadow-lg mb-8">
+                <iframe class="w-full h-64"
+                        src="https://www.google.com/maps?q=@Model.Local&output=embed">
+                </iframe>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="bg-white shadow-lg rounded-2xl p-6 h-fit">
+            <h3 class="text-xl font-semibold text-indigo-600 mb-4">Informações</h3>
+            <ul class="space-y-4 text-gray-700">
+                <li><i class="lucide lucide-calendar mr-2 text-indigo-500"></i>@Model.Data.ToString("dd/MM/yyyy HH:mm")</li>
+                <li><i class="lucide lucide-map-pin mr-2 text-indigo-500"></i>@Model.Local</li>
+                <li><i class="lucide lucide-tag mr-2 text-indigo-500"></i>Categoria: @Model.TipoEvento</li>
+                <li><i class="lucide lucide-dollar-sign mr-2 text-indigo-500"></i>Entrada: R$ @Model.Valor</li>
+                <li><i class="lucide lucide-dollar-sign mr-2 text-indigo-500"></i>Meia-Entrada: R$ @(Model.Valor / 2)</li>
+            </ul>
+            <div class="mt-6 flex flex-col space-y-3">
+                <a href="@Url.Action("Pagamento", new { id = Model.Id })"
+                   class="px-6 py-3 bg-indigo-600 text-white rounded-xl text-center hover:bg-indigo-700">
+                    Comprar Ingresso
+                </a>
+                <button onclick="toggleFavorite(this, '@Url.Action("Adicionar", "Home", new { id = Model.Id })')"
+                        class="px-6 py-3 bg-gray-200 rounded-xl hover:bg-gray-300">
+                    Salvar Evento
+                </button>
+            </div>
+        </aside>
+    </section>
+</div>

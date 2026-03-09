@@ -1,0 +1,205 @@
+﻿@model List<Ingresso>
+
+@{
+    ViewData["Title"] = "Meus Ingressos";
+}
+
+<div class="min-h-screen flex flex-col font-sans bg-gray-900 text-gray-100 relative overflow-hidden">
+
+    <!-- NAVBAR -->
+    <header id="navbar" class="fixed top-0 w-full z-50 backdrop-blur-md bg-gray-900/70 border-b border-gray-700 transition-all duration-300">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center relative z-10">
+            <h1 class="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-purple-500 via-pink-500 to-indigo-500 text-transparent bg-clip-text">
+                EventX
+            </h1>
+
+            <nav class="hidden md:flex gap-8 font-semibold text-gray-200">
+                <a asp-action="Index" class="hover:text-purple-400 transition">Início</a>
+                <a href="#sobre" class="hover:text-purple-400 transition">Sobre</a>
+                <a asp-controller="Home" asp-action="TodosEventos" class="hover:text-purple-400 transition">Eventos</a>
+                <a href="#contato" class="hover:text-purple-400 transition">Contato</a>
+            </nav>
+
+            <div class="flex items-center gap-4">
+                <a asp-controller="Home" asp-action="PaginaFavoritos" class="px-5 py-2 rounded-full bg-pink-500 hover:bg-pink-600 text-white font-semibold shadow-lg transition transform hover:-translate-y-0.5">
+                    Favoritos
+                </a>
+
+                @if (User.IsInRole("Admin"))
+                {
+                    <a asp-controller="Home" asp-action="Eventos" class="px-5 py-2 rounded-full bg-pink-500 hover:bg-pink-600 text-white font-semibold shadow-lg transition transform hover:-translate-y-0.5">
+                        Criar evento
+                    </a>
+                }
+
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <div class="relative">
+                        <button id="userDropdownButton" class="flex items-center gap-2 px-4 py-2 rounded-full bg-purple-600 hover:bg-purple-700 transition shadow-lg transform hover:-translate-y-0.5">
+                            <span>@User.Identity.Name</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div id="userDropdownMenu" class="hidden absolute right-0 mt-2 w-48 bg-gray-800 rounded-xl shadow-lg overflow-hidden z-50">
+                            <a asp-controller="Home" asp-action="Conta" class="block px-4 py-2 text-gray-200 hover:bg-purple-700 hover:text-white transition">Conta</a>
+                            <a asp-controller="Home" asp-action="MeusIngressos" class="block px-4 py-2 text-gray-200 hover:bg-purple-700 hover:text-white transition">Meus ingressos</a>
+                            <form method="post" asp-controller="Home" asp-action="Logout">
+                                <button type="submit" class="w-full text-left px-4 py-2 text-red-500 hover:bg-red-700 hover:text-white transition">Sair</button>
+                            </form>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="flex gap-3">
+                        <a asp-action="Registro" class="px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-full text-white font-semibold shadow transition transform hover:-translate-y-0.5">Registrar</a>
+                        <a asp-action="Login" class="px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-full text-white font-semibold shadow transition transform hover:-translate-y-0.5">Entrar</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </header>
+
+
+<div class="min-h-screen bg-gray-900 text-gray-100">
+
+    <!-- HEADER -->
+    <section class="py-24 text-center border-b border-gray-800">
+        <h1 class="text-4xl font-semibold tracking-tight">
+            Meus Ingressos
+        </h1>
+    </section>
+
+    <!-- CONTEÚDO -->
+    <section class="py-20">
+        <div class="max-w-7xl mx-auto px-6">
+
+            @if (!Model.Any())
+            {
+                <div class="max-w-xl mx-auto bg-gray-800 border border-gray-700 rounded-2xl p-12 text-center">
+                    <h2 class="text-xl font-semibold mb-3">
+                        Nenhum ingresso encontrado
+                    </h2>
+                    <p class="text-gray-400 mb-8">
+                        Você ainda não comprou nenhum ingresso.
+                    </p>
+                    <a asp-action="TodosEventos"
+                       class="inline-flex items-center justify-center px-8 py-3 rounded-xl bg-pink-500 hover:bg-pink-600 transition text-white font-medium">
+                        Ver eventos disponíveis
+                    </a>
+                </div>
+            }
+            else
+            {
+                <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+
+                    @foreach (var ingresso in Model)
+                    {
+                        <div class="bg-gray-800 border border-gray-700 rounded-2xl overflow-hidden hover:border-pink-500/40 transition">
+
+                            <!-- IMAGEM -->
+                            <div class="relative">
+                                <img src="@ingresso.Evento.ImagemURL"
+                                     alt="@ingresso.Evento.Nome"
+                                     class="w-full h-56 object-cover">
+
+                                <div class="absolute inset-0 bg-black/40"></div>
+
+                                <span class="absolute top-4 left-4 text-xs uppercase tracking-wide bg-black/70 px-3 py-1 rounded-full">
+                                    @ingresso.Evento.Data.ToString("dd MMM")
+                                </span>
+
+                                <span class="absolute top-4 right-4 text-xs uppercase tracking-wide bg-pink-500 px-3 py-1 rounded-full text-white">
+                                    @ingresso.TipoIngresso
+                                </span>
+                            </div>
+
+                            <!-- CONTEÚDO -->
+                            <div class="p-6 flex flex-col gap-6">
+
+                                <div>
+                                    <h3 class="text-lg font-semibold mb-1">
+                                        @ingresso.Evento.Nome
+                                    </h3>
+                                    <p class="text-sm text-gray-400 leading-relaxed">
+                                        📍 @ingresso.Evento.Local <br />
+                                        🕒 @ingresso.Evento.Data.ToString("dd 'de' MMMM 'de' yyyy 'às' HH:mm")
+                                    </p>
+                                </div>
+
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="text-xs text-gray-500">Valor pago</p>
+                                        <p class="text-lg font-semibold text-pink-400">
+                                            R$ @ingresso.ValorPago.ToString("N2")
+                                        </p>
+                                    </div>
+
+                                    <p class="text-xs text-gray-500 text-right">
+                                        Comprado em<br />
+                                        @ingresso.DataCompra.ToString("dd/MM/yyyy")
+                                    </p>
+                                </div>
+
+                                <!-- STATUS -->
+                                <div>
+                                    @if (ingresso.Status == "ativo" && ingresso.Evento.Data >= DateTime.Now)
+                                    {
+                                        <span class="inline-flex items-center gap-2 text-sm text-green-400">
+                                            <span class="w-2 h-2 rounded-full bg-green-400"></span>
+                                            Ingresso válido
+                                        </span>
+                                    }
+                                    else if (ingresso.Status == "usado")
+                                    {
+                                        <span class="inline-flex items-center gap-2 text-sm text-gray-400">
+                                            <span class="w-2 h-2 rounded-full bg-gray-400"></span>
+                                            Já utilizado
+                                        </span>
+                                    }
+                                    else if (ingresso.Status == "expirado" && ingresso.Evento.Data < DateTime.Now)
+                                    {
+                                        <span class="inline-flex items-center gap-2 text-sm text-red-400">
+                                            <span class="w-2 h-2 rounded-full bg-red-400"></span>
+                                            Expirado
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="inline-flex items-center gap-2 text-sm text-red-400">
+                                            <span class="w-2 h-2 rounded-full bg-red-400"></span>
+                                            Cancelado
+                                        </span>
+                                    }
+                                </div>
+
+                            </div>
+                        </div>
+                    }
+
+                </div>
+            }
+
+        </div>
+    </section>
+
+</div>
+
+<script>
+        const dropdownBtn = document.getElementById('userDropdownButton');
+        const dropdownMenu = document.getElementById('userDropdownMenu');
+
+        if (dropdownBtn && dropdownMenu) {
+            dropdownBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                dropdownMenu.classList.toggle('hidden');
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!dropdownMenu.classList.contains('hidden') && !dropdownBtn.contains(e.target)) {
+                    dropdownMenu.classList.add('hidden');
+                }
+            });
+        }
+</script>

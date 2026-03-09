@@ -1,0 +1,237 @@
+﻿@model Projeto_eventos.Models.Evento
+@{
+    ViewData["Title"] = "Editar Evento";
+}
+
+<!-- ALERTAS -->
+@if (TempData["Mensagem"] != null)
+{
+    <div id="alerta-sucesso"
+         class="fixed top-28 left-1/2 transform -translate-x-1/2 bg-green-500/20 border border-green-400 text-green-300 px-6 py-3 rounded-2xl text-center shadow-lg backdrop-blur-md transition-all duration-500 ease-out z-50">
+        ✅ @TempData["Mensagem"]
+    </div>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const alerta = document.getElementById('alerta-sucesso');
+            if (alerta) {
+                setTimeout(() => {
+                    alerta.style.opacity = '0';
+                    alerta.style.transform = 'translate(-50%, -20px)';
+                    setTimeout(() => alerta.remove(), 200);
+                }, 4000);
+            }
+        });
+    </script>
+}
+
+@if (TempData["MensagemErro"] != null)
+{
+    <div id="alerta-erro"
+         class="fixed top-28 left-1/2 transform -translate-x-1/2 bg-red-500/20 border border-red-400 text-red-300 px-6 py-3 rounded-2xl text-center shadow-lg backdrop-blur-md transition-all duration-500 ease-out z-50">
+        ❌ @TempData["MensagemErro"]
+    </div>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const alerta = document.getElementById('alerta-erro');
+            if (alerta) {
+                setTimeout(() => {
+                    alerta.style.opacity = '0';
+                    alerta.style.transform = 'translate(-50%, -20px)';
+                    setTimeout(() => alerta.remove(), 200);
+                }, 4000);
+            }
+        });
+    </script>
+}
+
+<!-- FORMULÁRIO -->
+<div class="min-h-screen flex items-center justify-center bg-gray-900 text-gray-100 py-24 px-6 relative overflow-hidden">
+
+    <div class="absolute inset-0 bg-gradient-to-br from-purple-800/30 via-pink-800/20 to-indigo-800/30 backdrop-blur-md"></div>
+
+    <div class="relative bg-gray-800/70 backdrop-blur-xl border border-gray-700 rounded-3xl shadow-2xl p-10 w-full max-w-3xl">
+
+        <h1 class="text-4xl font-extrabold text-center mb-10 bg-gradient-to-r from-pink-500 via-purple-400 to-indigo-500 text-transparent bg-clip-text">
+            Editar Evento
+        </h1>
+
+        <form asp-action="EditarBotao" asp-route-id="@Model.Id" method="post" enctype="multipart/form-data" class="space-y-8">
+
+            <!-- NOME -->
+            <div>
+                <label asp-for="Nome" class="block text-sm text-gray-300 mb-2 font-semibold">Nome do Evento</label>
+                <input asp-for="Nome" placeholder="Digite o nome do evento"
+                       class="w-full rounded-2xl border border-gray-600 bg-gray-900 text-gray-100 px-5 py-3 focus:ring-2 focus:ring-pink-500 outline-none transition" />
+                <span asp-validation-for="Nome" class="text-red-400 text-sm mt-1 block"></span>
+            </div>
+
+            <!-- LOCAL -->
+            <div>
+                <label asp-for="Local" class="block text-sm text-gray-300 mb-2 font-semibold">Local</label>
+                <select asp-for="Local"
+                        class="w-full rounded-2xl border border-gray-600 bg-gray-900 text-gray-100 px-5 py-3 focus:ring-2 focus:ring-purple-500 outline-none transition">
+                    <option value="">Selecione o local</option>
+                    <option value="Campo Limpo">Campo Limpo</option>
+                    <option value="Capão Redondo">Capão Redondo</option>
+                    <option value="Vila Andrade">Vila Andrade</option>
+                    <option value="Capela do Socorro">Capela do Socorro</option>
+                    <option value="Cidade Dutra">Cidade Dutra</option>
+                    <option value="Grajaú">Grajaú</option>
+                    <option value="Socorro">Socorro</option>
+                    <option value="Cidade Ademar">Cidade Ademar</option>
+                    <option value="Pedreira">Pedreira</option>
+                    <option value="Ipiranga">Ipiranga</option>
+                    <option value="Sacomã">Sacomã</option>
+                    <option value="Jabaquara">Jabaquara</option>
+                    <option value="M'Boi Mirim">M'Boi Mirim</option>
+                    <option value="Jardim Ângela">Jardim Ângela</option>
+                    <option value="Jardim São Luís">Jardim São Luís</option>
+                    <option value="Parelheiros">Parelheiros</option>
+                    <option value="Marsilac">Marsilac</option>
+                    <option value="Santo Amaro">Santo Amaro</option>
+                    <option value="Campo Belo">Campo Belo</option>
+                    <option value="Campo Grande">Campo Grande</option>
+                    <option value="Moema">Moema</option>
+                    <option value="Saúde">Saúde</option>
+                    <option value="Vila Mariana">Vila Mariana</option>
+                    <option value="Butantã">Butantã</option>
+                    <option value="Morumbi">Morumbi</option>
+                    <option value="Raposo Tavares">Raposo Tavares</option>
+                    <option value="Rio Pequeno">Rio Pequeno</option>
+                    <option value="Vila Sônia">Vila Sônia</option>
+                    <option value="Lapa">Lapa</option>
+                    <option value="Barra Funda">Barra Funda</option>
+                    <option value="Jaguara">Jaguara</option>
+                    <option value="Jaguaré">Jaguaré</option>
+                    <option value="Perdizes">Perdizes</option>
+                    <option value="Vila Leopoldina">Vila Leopoldina</option>
+                    <option value="Pinheiros">Pinheiros</option>
+                    <option value="Alto de Pinheiros">Alto de Pinheiros</option>
+                    <option value="Itaim Bibi">Itaim Bibi</option>
+                    <option value="Jardim Paulista">Jardim Paulista</option>
+                </select>
+            </div>
+
+            <!-- DATA -->
+            <div>
+                <label asp-for="Data" class="block text-sm text-gray-300 mb-2 font-semibold">Data do Evento</label>
+                <input asp-for="Data" type="datetime-local"
+                       class="w-full rounded-2xl border border-gray-600 bg-gray-900 text-gray-100 px-5 py-3 focus:ring-2 focus:ring-indigo-500 outline-none transition" />
+                <span asp-validation-for="Data" class="text-red-400 text-sm mt-1 block"></span>
+
+                @if (ViewBag.MensagemErro != null)
+                {
+                    <p class="text-red-400 text-sm mt-2">@ViewBag.MensagemErro</p>
+                }
+            </div>
+
+            <!-- DESCRIÇÃO -->
+            <div>
+                <label asp-for="Descricao" class="block text-sm text-gray-300 mb-2 font-semibold">Descrição</label>
+                <textarea asp-for="Descricao" rows="5" id="descricao"
+                          class="w-full rounded-2xl border border-gray-600 bg-gray-900 text-gray-100 px-5 py-3 focus:ring-2 focus:ring-pink-500 outline-none resize-none transition" maxlength="300"
+                          placeholder="Digite uma descrição breve do evento..."></textarea>
+
+                <div class="flex justify-between text-sm mt-1 text-gray-400">
+                    <span asp-validation-for="Descricao" class="text-red-400"></span>
+                    <small id="contador">0 / 300</small>
+                </div>
+            </div>
+
+            <!-- Valor -->
+            <div>
+                <label asp-for="Valor" class="block text-sm text-gray-300 mb-2 font-semibold">Valor do Evento</label>
+
+                <div class="relative">
+                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm">R$</span>
+
+                    <input asp-for="Valor" id="valorInput"
+                           type="text"
+                           placeholder="0,00"
+                           class="w-full pl-12 rounded-2xl border border-gray-600 bg-gray-900 text-gray-100 px-5 py-3
+                      focus:ring-2 focus:ring-indigo-500 outline-none transition" />
+                </div>
+
+                <span asp-validation-for="Valor" class="text-red-400 text-sm mt-1 block"></span>
+            </div>
+
+            <div>
+                <label asp-for="TipoEvento" class="block text-sm text-gray-300 mb-2 font-semibold">Tipo evento</label>
+                <select asp-for="TipoEvento"
+                        class="w-full rounded-2xl border border-gray-600 bg-gray-900 text-gray-100 px-5 py-3 focus:ring-2 focus:ring-purple-500 outline-none transition">
+                    <option value="">Tipo de evento</option>
+                    <option value="Rock">Rock</option>
+                    <option value="Pop">Pop</option>
+                    <option value="Blues">Blues</option>
+                    <option value="Jazz">Jazz</option>
+                    <option value="Metal">Metal</option>
+                    <option value="Teatro">Teatro</option>
+                </select>
+                <span asp-validation-for="Local" class="text-red-400 text-sm mt-1 block"></span>
+            </div>
+
+            <!-- IMAGEM -->
+            <div>
+                <label class="block text-sm text-gray-300 mb-2 font-semibold">Imagem do Evento</label>
+                <input type="file" name="Imagem2" id="Imagem2" accept="image/*"
+                       class="block w-full text-sm text-gray-300 file:mr-4 file:py-2 file:px-4
+                              file:rounded-xl file:border-0 file:text-sm file:font-semibold
+                              file:bg-purple-600/20 file:text-purple-300 hover:file:bg-purple-600/30 cursor-pointer transition" />
+
+                <div class="mt-4">
+                    <img id="imagePreview2" class="@(Model.ImagemURL != null ? "" : "hidden") w-48 h-48 object-cover rounded-2xl border border-gray-600 shadow-lg mx-auto"
+                         src="@(Model.ImagemURL ?? "")" />
+                </div>
+
+                <span asp-validation-for="ImagemURL" class="text-red-400 text-sm mt-1 block"></span>
+            </div>
+
+            <!-- BOTÕES -->
+            <div class="flex justify-center items-center gap-6">
+                <button type="submit"
+                        class="px-10 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-full shadow-lg hover:scale-105 transition transform duration-300">
+                    Editar Evento
+                </button>
+
+                <a asp-action="Index"
+                   class="text-gray-400 hover:text-pink-400 transition font-semibold">Voltar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        // contador de descrição
+        const descricao = document.getElementById("descricao");
+        const contador = document.getElementById("contador");
+        if (descricao) {
+            contador.textContent = `${descricao.value.length} / 300`;
+            descricao.addEventListener("input", () => {
+                contador.textContent = `${descricao.value.length} / 300`;
+            });
+        }
+
+        // preview imagem
+        document.getElementById("Imagem2").addEventListener("change", function (event) {
+            const file = event.target.files[0];
+            const preview = document.getElementById("imagePreview2");
+
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    preview.src = e.target.result;
+                    preview.classList.remove("hidden");
+                };
+                reader.readAsDataURL(file);
+            } else {
+                preview.src = "";
+                preview.classList.add("hidden");
+            }
+        });
+    </script>
+}
