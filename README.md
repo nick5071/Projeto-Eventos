@@ -71,3 +71,5 @@ Depois copie suas chaves:
      locale: "pt-BR"
  });
 ```
+
+Lembrando que a versão grátis do Mercado pago só permite utilizar cartões de teste.
