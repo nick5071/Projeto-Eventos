@@ -30,16 +30,17 @@ Comandos pacote NuGet (Entity framework)
 
 # Importante:
 Para alteração de senha funcionar por Envio de email na aba de Login, você deve mudar o:
-        "Username": "SeuEmail",
-        "Password": "SenhaDoSeuEmail"
 
+```
+  "Smtp": {
+    "Host": "smtp.gmail.com",
+    "Port": 587,
+    "Username": "Seu email aqui",
+    "Password": "Sua senha codificada aqui"
+```
 no appsettings.Development.json, coloque o email que deseja que envie o email para a redefinição de Senha para o usuario, para isso o email desejado deve ativar a verificação em duas etapas e ir em https://myaccount.google.com/apppasswords, Na seção "Selecionar app", escolha "Mail". Vai aparecer uma senha como: abcd efgh ijkl mnop (sem espaços — copie inteira), e cole no "Password", isso porque o Gmail não aceita mais sua senha normal em conexões SMTP com apps externos. É obrigatório usar uma "senha de app" se você tem autenticação em 2 etapas (2FA) ativada
 
 
-
-```
-MercadoPagoConfig.AccessToken = "########";
-```
   
  
 
