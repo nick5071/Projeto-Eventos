@@ -62,7 +62,7 @@ Depois copie suas chaves:
  ```
  MercadoPagoConfig.AccessToken = "########";
 
-     const mp = new MercadoPago("SUA-PUBLIC-TOKEN-AQUI", {
-        locale: "pt-BR"
-    });
+ const mp = new MercadoPago("SUA-PUBLIC-TOKEN-AQUI", {
+     locale: "pt-BR"
+ });
 ```
