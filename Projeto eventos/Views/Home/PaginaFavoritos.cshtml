@@ -1,20 +1,17 @@
-﻿@model IEnumerable<Projeto_eventos.Models.Evento>
+@model IEnumerable<Projeto_eventos.Models.Evento>
 @{
     ViewData["Title"] = "Meus Favoritos";
 }
-
 
 <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 
 <div class="min-h-screen font-sans bg-gray-900 text-gray-100 relative overflow-hidden">
 
-
-    <!-- PARTICULAS AO FUNDO -->
     <div id="particles-js" class="fixed inset-0 z-0"></div>
 
-    <!-- NAVBAR -->
     <header id="navbar" class="fixed top-0 w-full z-50 backdrop-blur-md bg-gray-900/70 border-b border-gray-700 transition-all duration-300">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center relative z-50">
+
             <h1 class="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-purple-500 via-pink-500 to-indigo-500 text-transparent bg-clip-text">
                 EventX
             </h1>
@@ -26,23 +23,22 @@
                 <a class="hover:text-purple-400 transition">Contato</a>
             </nav>
 
-
-
             <div class="flex items-center gap-4">
                 @if (User.Identity.IsAuthenticated)
                 {
                     <div class="relative">
                         <button id="userDropdownButton" class="flex items-center gap-2 px-4 py-2 rounded-full bg-purple-600 hover:bg-purple-700 transition shadow-lg transform hover:-translate-y-0.5">
                             <span>@User.Identity.Name</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                            </svg>
                         </button>
+
                         <div id="userDropdownMenu" class="hidden absolute right-0 mt-2 w-48 bg-gray-800 rounded-xl shadow-lg overflow-hidden z-50">
                             <a asp-controller="Home" asp-action="Conta" class="block px-4 py-2 text-gray-200 hover:bg-purple-700 hover:text-white transition">Conta</a>
                             <a asp-controller="Home" asp-action="MeusIngressos" class="block px-4 py-2 text-gray-200 hover:bg-purple-700 hover:text-white transition">Meus ingressos</a>
+
                             <form method="post" asp-controller="Home" asp-action="Logout">
-                                <button type="submit" class="w-full text-left px-4 py-2 text-red-500 hover:bg-red-700 hover:text-white transition">Sair</button>
+                                <button type="submit" class="w-full text-left px-4 py-2 text-red-500 hover:bg-red-700 hover:text-white transition">
+                                    Sair
+                                </button>
                             </form>
                         </div>
                     </div>
@@ -50,8 +46,8 @@
                 else
                 {
                     <div class="flex gap-3">
-                        <a asp-action="Registro" class="px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-full text-white font-semibold shadow transition transform hover:-translate-y-0.5">Registrar</a>
-                        <a asp-action="Login" class="px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-full text-white font-semibold shadow transition transform hover:-translate-y-0.5">Entrar</a>
+                        <a asp-action="Registro" class="px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-full text-white font-semibold shadow transition">Registrar</a>
+                        <a asp-action="Login" class="px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-full text-white font-semibold shadow transition">Entrar</a>
                     </div>
                 }
             </div>
@@ -61,105 +57,72 @@
     <!-- FAVORITOS -->
     <section class="pt-32 pb-24 px-6 relative z-10">
         <div class="container mx-auto">
-            <div class="grid gap-12 md:grid-cols-3">
+
+            <div class="grid gap-12 md:grid-cols-3 items-stretch">
+
                 @if (Model != null && Model.Any())
                 {
                     @foreach (var item in Model)
                     {
-                        <div class="bg-gray-800 rounded-3xl shadow-xl overflow-hidden transform transition hover:-translate-y-4 hover:scale-105 hover:shadow-2xl cursor-pointer relative z-0">
+
+                        <div class="bg-gray-800 rounded-3xl shadow-xl overflow-hidden transform transition hover:-translate-y-4 hover:scale-105 hover:shadow-2xl flex flex-col h-full min-h-[520px]">
+
                             <div class="relative">
-                                <img src="@item.ImagemURL" alt="@item.Nome" class="w-full h-64 object-cover rounded-t-3xl">
-                                <span class="absolute top-4 left-4 bg-pink-500 text-white text-sm px-3 py-1 rounded-full shadow">@item.Data.ToString("dd MMM")</span>
+                                <img src="@item.ImagemURL"
+                                     alt="@item.Nome"
+                                     class="w-full h-64 object-cover rounded-t-3xl">
+
+                                <span class="absolute top-4 left-4 bg-pink-500 text-white text-sm px-3 py-1 rounded-full shadow">
+                                    @item.Data.ToString("dd MMM")
+                                </span>
                             </div>
-                            <div class="p-6 flex flex-col gap-4">
-                                <h4 class="text-xl font-bold text-white">@item.Nome</h4>
-                                <p class="text-gray-300 line-clamp-3">@item.Descricao</p>
+
+                            <div class="p-6 flex flex-col flex-1 gap-4">
+
+                                <h4 class="text-xl font-bold text-white">
+                                    @item.Nome
+                                </h4>
+
+                                <p class="text-gray-300 line-clamp-3">
+                                    @item.Descricao
+                                </p>
+
                                 <p class="text-pink-400 font-medium">
                                     📍 @item.Local <br>
                                     🕒 @item.Data.ToString("dd 'de' MMMM 'de' yyyy 'às' HH:mm")
                                 </p>
-                                <div class="flex flex-wrap gap-2 mt-3">
-                                    <a href="@Url.Action("Ingressos", new { id = item.Id })" class="flex-1 text-center px-4 py-2 bg-purple-600 text-white rounded-full shadow hover:bg-purple-700 transition">Comprar</a>
-                                    <a asp-controller="Home" asp-action="Remover" asp-route-id="@item.Id" class="flex-1 text-center px-4 py-2 bg-red-600 text-white rounded-full shadow hover:bg-red-700 transition">Remover</a>
+
+                                <!-- BOTÕES SEMPRE ALINHADOS -->
+                                <div class="flex gap-2 mt-auto">
+
+                                    <a href="@Url.Action("Ingressos", new { id = item.Id })"
+                                       class="flex-1 text-center px-4 py-2 bg-purple-600 text-white rounded-full shadow hover:bg-purple-700 transition">
+                                        Comprar
+                                    </a>
+
+                                    <a asp-controller="Home"
+                                       asp-action="Remover"
+                                       asp-route-id="@item.Id"
+                                       class="flex-1 text-center px-4 py-2 bg-red-600 text-white rounded-full shadow hover:bg-red-700 transition">
+                                        Remover
+                                    </a>
+
                                 </div>
+
                             </div>
                         </div>
                     }
                 }
                 else
                 {
-                    <p class="text-center text-gray-400 col-span-3">Nenhum evento adicionado aos favoritos.</p>
+                    <p class="text-center text-gray-400 col-span-3">
+                        Nenhum evento adicionado aos favoritos.
+                    </p>
                 }
+
             </div>
+
         </div>
     </section>
 
-    <!-- FOOTER -->
-    <footer class="bg-gray-900 text-gray-400 py-12 relative z-10">
-        <div class="container mx-auto px-6 grid md:grid-cols-3 gap-8 text-center md:text-left">
-            <div>
-                <h3 class="text-lg font-semibold text-white mb-2">EventX</h3>
-                <p class="text-sm opacity-80">Descubra os melhores eventos da sua cidade e viva novas experiências!</p>
-            </div>
-            <div>
-                <h3 class="text-lg font-semibold text-white mb-2">Links</h3>
-                <ul class="space-y-2 text-sm">
-                    <li><a href="#sobre" class="hover:text-pink-400 transition">Sobre</a></li>
-                    <li><a href="#eventos" class="hover:text-pink-400 transition">Eventos</a></li>
-                    <li><a href="#contato" class="hover:text-pink-400 transition">Contato</a></li>
-                </ul>
-            </div>
-            <div>
-                <h3 class="text-lg font-semibold text-white mb-2">Siga-nos</h3>
-                <div class="flex justify-center md:justify-start space-x-4">
-                    <a href="#" class="hover:text-pink-400 transition">Instagram</a>
-                    <a href="#" class="hover:text-pink-400 transition">Twitter</a>
-                    <a href="#" class="hover:text-pink-400 transition">LinkedIn</a>
-                </div>
-            </div>
-        </div>
-    </footer>
 </div>
-
-<script>
-    // PARTICULAS
-    particlesJS("particles-js", {
-      "particles": {
-        "number": { "value": 80 },
-        "color": { "value": "#ffffff" },
-        "shape": { "type": "circle" },
-        "opacity": { "value": 0.4 },
-        "size": { "value": 3 },
-        "line_linked": { "enable": true, "distance": 120, "color": "#ffffff", "opacity": 0.2, "width": 1 },
-        "move": { "enable": true, "speed": 0.8, "attract": { "enable": true, "rotateX": 600, "rotateY": 1200 } }
-      },
-      "interactivity": {
-        "events": {
-          "onhover": { "enable": true, "mode": "grab" },
-          "onclick": { "enable": true, "mode": "push" }
-        }
-      },
-      "retina_detect": true
-    });
-
-    // DROPDOWN
-    const userBtn = document.getElementById('userDropdownButton');
-    const userMenu = document.getElementById('userDropdownMenu');
-    if(userBtn){
-        userBtn.addEventListener('click', () => userMenu.classList.toggle('hidden'));
-        document.addEventListener('click', e => {
-            if(!userBtn.contains(e.target) && !userMenu.contains(e.target)){
-                userMenu.classList.add('hidden');
-            }
-        });
-    }
-
-    const navbar = document.getElementById('navbar');
-    window.addEventListener('scroll', () => {
-        if(window.scrollY > 50){
-            navbar.classList.add('bg-gray-900/80', 'backdrop-blur-md', 'shadow-md');
-        } else {
-            navbar.classList.remove('bg-gray-900/80', 'backdrop-blur-md', 'shadow-md');
-        }
-    });
-</script>
