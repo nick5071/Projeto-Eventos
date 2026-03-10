@@ -1,4 +1,4 @@
-﻿@model Projeto_eventos.Models.Evento
+@model Projeto_eventos.Models.Evento
 
 <div class="min-h-screen bg-gray-50 text-gray-900">
 
@@ -271,15 +271,35 @@
 
         } catch (e) {
             console.error(e);
+
             let mensagem = "Cartão inválido. Verifique os dados.";
 
             if (e?.cause && e.cause.length > 0) {
-                mensagem = e.cause[0].description;
+
+                const erro = (e.cause[0].description || e.cause[0].message || "").toLowerCase();
+
+                   if (erro.includes("expiration_year"))
+                    mensagem = "Ano de validade do cartão inválido.";
+
+                    else if (erro.includes("expiration_month"))
+                        mensagem = "Mês de validade do cartão inválido.";
+
+                    else if (erro.includes("card_number"))
+                        mensagem = "Número do cartão inválido.";
+
+                    else if (erro.includes("security_code"))
+                        mensagem = "Código de segurança inválido.";
+
+                    else if (erro.includes("cardholder"))
+                        mensagem = "Nome no cartão inválido.";
+
+                    else
+                        mensagem = "Erro ao validar o cartão.";
             }
 
             const erroDiv = document.getElementById("erro-pagamento");
             erroDiv.textContent = mensagem;
             erroDiv.classList.remove("hidden");
+            }
         }
-    }
 </script>
