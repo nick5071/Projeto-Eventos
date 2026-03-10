@@ -1,4 +1,4 @@
-﻿using MercadoPago.Client.Common;
+using MercadoPago.Client.Common;
 using MercadoPago.Client.Payment;
 using MercadoPago.Error;
 using MercadoPago.Resource.Payment;
@@ -37,6 +37,8 @@ namespace Projeto_eventos.Controllers
             var eventos = _conexao.Eventos
                 .Where(e => e.Data >= DateTime.Now)
                 .ToList();
+
+            ViewBag.Favoritos = GetFavoritos(); 
 
             return View(eventos);
         }
@@ -130,6 +132,26 @@ namespace Projeto_eventos.Controllers
         }
 
         [Authorize]
+        [HttpPost]
+        public IActionResult ToggleFavorito(int id)
+        {
+            var favoritos = GetFavoritos();
+
+            if (favoritos.Contains(id))
+            {
+                favoritos.Remove(id);
+                SaveFavoritos(favoritos);
+                return Json(new { favoritado = false });
+            }
+            else
+            {
+                favoritos.Add(id);
+                SaveFavoritos(favoritos);
+                return Json(new { favoritado = true });
+            }
+        }
+
+        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeletarConta(string senha)
         {
@@ -181,6 +203,8 @@ namespace Projeto_eventos.Controllers
         {
             return View();
         }
+
+
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
@@ -559,6 +583,8 @@ namespace Projeto_eventos.Controllers
             ViewBag.TotalPages = (int)Math.Ceiling(totalEventos / (double)pageSize);
             ViewBag.CurrentPage = page;
 
+            ViewBag.Favoritos = GetFavoritos();
+
             return View(eventosPaginados);
         }
 
@@ -643,17 +669,17 @@ namespace Projeto_eventos.Controllers
             }
             else
             {
-                 foreach (var erro in resultado.Errors)
-                     {
-                         if (erro.Code == "InvalidUserName")
-                         {
-                             TempData["Erro"] = "O nome de usuário só pode conter letras ou números.";
-                         }
-                         else
-                         {
-                             TempData["Erro"] = "Erro ao atualizar o nome de usuário.";
-                         }
-                     }
+                foreach (var erro in resultado.Errors)
+                {
+                    if (erro.Code == "InvalidUserName")
+                    {
+                        TempData["Erro"] = "O nome de usuário só pode conter letras ou números.";
+                    }
+                    else
+                    {
+                        TempData["Erro"] = "Erro ao atualizar o nome de usuário.";
+                    }
+                }
             }
 
             return RedirectToAction("Conta");
