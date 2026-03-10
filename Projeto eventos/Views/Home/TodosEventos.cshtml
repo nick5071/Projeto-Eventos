@@ -1,7 +1,11 @@
-﻿@{
+@{
     ViewData["Title"] = "Todos os Eventos";
 }
 @model IEnumerable<Projeto_eventos.Models.Evento>
+
+@{
+    var favoritos = ViewBag.Favoritos as List<int> ?? new List<int>();
+}
 
 <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 
@@ -176,22 +180,22 @@
                                             </a>
                                         }
 
-                                    <!-- FAVORITO -->
-                                      <button onclick="toggleFavorite(this, '@Url.Action("Adicionar", "Home", new { id = item.Id })')"
-                                              class="favorite-btn flex items-center gap-2 px-4 py-2 rounded-xl bg-gray-800 hover:bg-gray-700 transition-all duration-300">
-                                    
-                                          <svg xmlns="http://www.w3.org/2000/svg"
-                                               class="heart w-5 h-5 transition-all duration-300"
-                                               viewBox="0 0 24 24"
-                                               fill="none"
-                                               stroke="currentColor"
-                                               stroke-width="2">
-                                              <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21.364l-7.682-8.682a4.5 4.5 0 010-6.364z" />
-                                          </svg>
-                                    
-                                          <span class="text-sm text-gray-300">Favoritar</span>
-                                      </button>
+                                        <!-- FAVORITO -->
+                                        <button onclick="toggleFavorite(this, '@Url.Action("ToggleFavorito", "Home", new { id = item.Id })')"
+                                                class="favorite-btn flex items-center gap-2 px-4 py-2 rounded-xl bg-gray-800 hover:bg-gray-700 transition-all duration-300 @(favoritos.Contains(item.Id) ? "active" : "")">
+
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                 class="heart w-5 h-5 transition-all duration-300"
+                                                 viewBox="0 0 24 24"
+                                                 fill="none"
+                                                 stroke="currentColor"
+                                                 stroke-width="2">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                      d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21.364l-7.682-8.682a4.5 4.5 0 010-6.364z" />
+                                            </svg>
+
+                                            <span class="text-sm text-gray-300">Favoritar</span>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -268,6 +272,26 @@
         fetch(url).catch(() => {});
     }
 
+        function toggleFavorite(button, url) {
+
+        fetch(url, {
+            method: "POST"
+        })
+        .then(() => {
+            button.classList.toggle("active");
+        });
+
+    }
+
+        function toggleFavorite(button, url) {
+
+        fetch(url, { method: "POST" })
+            .then(res => {
+                button.classList.toggle("active");
+            });
+
+    }
+
     // Navbar dinâmica
     const navbar = document.getElementById('navbar');
     window.addEventListener('scroll', () => {
@@ -304,7 +328,7 @@
         overflow: hidden;
     }
 
-        .favorite-btn:hover .heart {
+    .favorite-btn:hover .heart {
         color: #ec4899;
         transform: scale(1.15);
     }
