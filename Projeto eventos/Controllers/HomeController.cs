@@ -321,9 +321,20 @@ namespace Projeto_eventos.Controllers
                     return View("Sucesso", sucessoVm);
                 }
             }
-            catch (MercadoPagoApiException)
+            catch (MercadoPagoApiException ex)
             {
-                ModelState.AddModelError("", "Dados do cartão inválidos.");
+                var erro = ex.ApiError?.Message;
+
+                if (erro == "invalid expiration_year")
+                    ModelState.AddModelError("", "Ano de validade do cartão inválido.");
+                else if (erro == "invalid expiration_month")
+                    ModelState.AddModelError("", "Mês de validade do cartão inválido.");
+                else if (erro == "invalid card_number")
+                    ModelState.AddModelError("", "Número do cartão inválido.");
+                else if (erro == "invalid security_code")
+                    ModelState.AddModelError("", "Código de segurança inválido.");
+                else
+                    ModelState.AddModelError("", "Erro ao processar o cartão.");
             }
             catch (Exception)
             {
