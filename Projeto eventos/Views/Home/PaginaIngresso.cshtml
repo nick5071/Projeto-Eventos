@@ -53,10 +53,10 @@
                    class="px-6 py-3 bg-indigo-600 text-white rounded-xl text-center hover:bg-indigo-700">
                     Comprar Ingresso
                 </a>
-                <button onclick="toggleFavorite(this, '@Url.Action("Adicionar", "Home", new { id = Model.Id })')"
-                        class="px-6 py-3 bg-gray-200 rounded-xl hover:bg-gray-300">
-                    Salvar Evento
-                </button>
+                <a asp-action="Index"
+                   class="flex items-center justify-center px-6 py-3 bg-gray-200 rounded-xl hover:bg-gray-300">
+                    Voltar
+                </a>
             </div>
         </aside>
     </section>
