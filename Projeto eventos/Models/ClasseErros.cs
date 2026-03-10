@@ -4,6 +4,14 @@ namespace Projeto_eventos.Models
 {
     public class ClasseErros : IdentityErrorDescriber
     {
+        public override IdentityError PasswordRequiresDigit()
+       {
+           return new IdentityError
+           {
+               Code = nameof(PasswordRequiresDigit),
+               Description = "A senha precisa conter pelo menos um número."
+           };
+       }
         public override IdentityError PasswordRequiresUpper()
        => new IdentityError
        {
