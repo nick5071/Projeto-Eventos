@@ -643,7 +643,17 @@ namespace Projeto_eventos.Controllers
             }
             else
             {
-                TempData["Erro"] = string.Join(" ", resultado.Errors.Select(e => e.Description));
+                 foreach (var erro in resultado.Errors)
+                     {
+                         if (erro.Code == "InvalidUserName")
+                         {
+                             TempData["Erro"] = "O nome de usuário só pode conter letras ou números.";
+                         }
+                         else
+                         {
+                             TempData["Erro"] = "Erro ao atualizar o nome de usuário.";
+                         }
+                     }
             }
 
             return RedirectToAction("Conta");
