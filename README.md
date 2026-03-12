@@ -20,7 +20,7 @@
 
 • Mercado Pago SDK
 
-Usuário administrador padrão criado automaticamente:
+Usuário administrador padrão criado automaticamente no Program.cs
 
 Email: admin@evento.com
 Senha: Admin123!
